@@ -6,7 +6,7 @@ import './App.css';
 function App() {
   return (
     <div className="App">
-      <HelloWorld />
+      <HelloWorld title="electron"/>
     </div>
   );
 }
