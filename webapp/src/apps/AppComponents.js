@@ -14,7 +14,7 @@ class AppComponent extends React.Component {
 		return(
 			<BrowserRouter>
 				<Switch>
-					<Route exact path="/" component={Index} />
+					<Route exact path="/news/" component={Index} />
 					<Route exact path="/news/sector/" component={MenuPosts} />
 					<Route exact path="/news/trending/" component={Trending} />
 					<Route exact path="/news/latest/" component={LatestNews} />
