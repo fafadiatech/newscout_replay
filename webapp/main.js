@@ -4,7 +4,7 @@ let win = null;
 
 function createWindow() {
 	win = new BrowserWindow({width:1000, height:800});
-	win.loadURL('http://localhost:3000');
+	win.loadURL('http://localhost:3000/news/');
 
 	// open devlopertools
 	win.webContents.openDevTools()
