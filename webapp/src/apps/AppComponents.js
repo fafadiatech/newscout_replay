@@ -15,12 +15,12 @@ class AppComponent extends React.Component {
 			<BrowserRouter>
 				<Switch>
 					<Route exact path="/news/" component={Index} />
-					<Route exact path="/news/sector/" component={MenuPosts} />
 					<Route exact path="/news/trending/" component={Trending} />
-					<Route exact path="/news/latest/" component={LatestNews} />
-					<Route exact path="/news/post-detail/" component={PostDetail} />
+					<Route exact path="/news/latest-news/" component={LatestNews} />
 					<Route exact path="/news/search/" component={SearchResult} />
-					<Route exact path="/news/sector/banking/" component={SubmenuPosts} />
+					<Route exact path="/news/article/:articleid" component={PostDetail} />
+					<Route exact path="/news/:category/" component={MenuPosts} />
+					<Route exact path="/news/:category/:subcategory/" component={SubmenuPosts} />
 				</Switch>
 			</BrowserRouter>
 		)
