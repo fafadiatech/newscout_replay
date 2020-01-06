@@ -1,20 +1,30 @@
 {
   "name": "webapp",
+  "productName": "Newscout App",
   "version": "0.1.0",
+  "license": "MIT",
+  "description": "Newscout App",
+  "author": "fafadiatech",
   "main": "main.js",
-  "private": true,
   "dependencies": {
+    "babel-eslint": "^10.0.3",
+    "eslint": "^6.8.0",
+    "moment": "^2.24.0",
     "newscout": "file:../../newscout-react-components/newscout/newscout-0.1.0.tgz",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.2.0"
+    "react-scripts": "3.2.0",
+    "react-toastify": "^5.4.1"
+  },
+  "devDependencies": {
+    "electron": "^7.1.7",
+    "electron-packager": "^14.1.1"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
   },
   "eslintConfig": {
     "extends": "react-app"

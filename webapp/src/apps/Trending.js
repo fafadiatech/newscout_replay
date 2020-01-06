@@ -6,9 +6,12 @@ import { CardItem, Menu, SectionTitle } from 'newscout';
 import { MENUS, TRENDING_NEWS } from '../utils/Constants';
 import { getRequest } from '../utils/Utils';
 
+import '../App.css';
 import 'newscout/assets/Menu.css'
 import 'newscout/assets/CardItem.css'
 import 'newscout/assets/SectionTitle.css'
+
+import config_data from '../config.json';
 
 const DOMAIN = "domain=newscout";
 const URL = "/news/search/"
@@ -51,7 +54,11 @@ class Trending extends React.Component {
 				article_dict['source'] = ele.source;
 				article_dict['source_url'] = ele.source_url;
 				article_dict['date'] = moment(ele.published_on).format('YYYY-MM-DD');
-				article_dict['src'] = "http://images.newscout.in/unsafe/336x150/left/top/"+decodeURIComponent(ele.cover_image);
+				if(ele.cover_image){
+					article_dict['src'] = "http://images.newscout.in/unsafe/336x150/left/top/"+decodeURIComponent(ele.cover_image);
+				} else {
+					article_dict['src'] = "http://images.newscout.in/unsafe/336x150/left/top/"+config_data.defaultImage;
+				}
 				trending_array.push(article_dict)
 			})
 		})
