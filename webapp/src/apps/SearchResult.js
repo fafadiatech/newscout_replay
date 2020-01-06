@@ -1,4 +1,5 @@
 import React from 'react';
+import $ from 'jquery';
 import moment from 'moment';
 import logo from '../logo.png';
 import { CardItem, Menu, SideBar, Filter } from 'newscout';
@@ -8,6 +9,7 @@ import { faFilter } from '@fortawesome/free-solid-svg-icons';
 import { MENUS, ARTICLE_POSTS } from '../utils/Constants';
 import { getRequest } from '../utils/Utils';
 
+import '../App.css';
 import 'newscout/assets/Menu.css'
 import 'newscout/assets/CardItem.css'
 import 'newscout/assets/Sidebar.css'
@@ -26,15 +28,35 @@ class SearchResult extends React.Component {
 		super(props);
 		this.state = {
 			menus: [],
-			sources: [],
-			filters: [],
-			hashtags: [],
-			final_query: "",
-			categories: [],
 			searchResult: [],
 			isFilterOpen: false,
-			query: this.props.location.search.split("=")[1]
+			categories: [],
+			sources: [],
+			hashtags: [],
+			filters: [],
+			final_query: "",
+			query: this.props.location.search.split("=")[1],
+			loading: false,
+			page : 0,
+			next: null,
+			previous: null,
 		};
+	}
+
+	getNext = () => {
+		this.setState({
+			loading: true,
+			page : this.state.page + 1
+		})
+		getRequest(this.state.next, this.getSearchResult, false, true);
+	}
+
+	handleScroll = () => {
+		if ($(window).scrollTop() === $(document).height() - $(window).height()) {
+			if (!this.state.loading && this.state.next){
+				this.getNext();
+			}
+		}
 	}
 
 	getMenu = (data) => {
@@ -59,7 +81,7 @@ class SearchResult extends React.Component {
 		})
 	}
 
-	getSearchResult = (data) => {
+	getSearchResult = (data, extra_data) => {
 		const filters = [];
 		var searchresult_array = [];
 		var source_filters = data.body.filters.source;
@@ -127,8 +149,22 @@ class SearchResult extends React.Component {
 			}
 			searchresult_array.push(article_dict)
 		})
+		var results = ""
+		if(extra_data){
+			results = [
+				...this.state.searchResult,
+				...searchresult_array
+			]
+		} else {
+			results = [
+				...searchresult_array
+			]
+		}
 		this.setState({
-			searchResult: searchresult_array
+			searchResult: results,
+			next: data.body.next,
+			previous: data.body.previous,
+			loading: false
 		})
 	}
 
@@ -154,6 +190,7 @@ class SearchResult extends React.Component {
 	}
 
 	componentDidMount() {
+		window.addEventListener('scroll', this.handleScroll, true);
 		getRequest(MENUS+"?"+DOMAIN, this.getMenu);
 		if(this.state.final_query){
 			getRequest(ARTICLE_POSTS+"?"+DOMAIN+"&q="+this.state.query+"&"+this.state.final_query, this.getSearchResult);
@@ -162,8 +199,11 @@ class SearchResult extends React.Component {
 		}
 	}
 
+	componentWillUnmount = () => {
+		window.removeEventListener('scroll', this.handleScroll)
+	}
+
 	render() {
-		console.log()
 		var { menus, searchResult, filters, isFilterOpen } = this.state;
 
 		var result = searchResult.map((item, index) => {
@@ -219,6 +259,13 @@ class SearchResult extends React.Component {
 										<ul className="list-inline">
 											{result}
 										</ul>
+										{
+											this.state.loading ?
+												<React.Fragment>
+													<div className="lds-ring text-center"><div></div><div></div><div></div><div></div></div>
+												</React.Fragment>
+											: ""
+										}
 									</div>
 								</div>
 							</div>

@@ -9,6 +9,7 @@
   "dependencies": {
     "babel-eslint": "^10.0.3",
     "eslint": "^6.8.0",
+    "jquery": "^3.4.1",
     "moment": "^2.24.0",
     "newscout": "file:../../newscout-react-components/newscout/newscout-0.1.0.tgz",
     "react": "^16.11.0",
